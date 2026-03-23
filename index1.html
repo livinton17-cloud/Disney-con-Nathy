@@ -1,10 +1,943 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <title>Current Date and Time</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Disney con Nathi — Tu Insider en Orlando</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --forest: #0B3D2E;
+    --forest-mid: #145E44;
+    --forest-light: #1D9E75;
+    --mint: #9FE1CB;
+    --cream: #FAF7F2;
+    --warm-white: #FFFDF9;
+    --gold: #C8963E;
+    --gold-light: #F5D48A;
+    --text-dark: #1A1A18;
+    --text-mid: #4A4A44;
+    --text-soft: #888880;
+    --border: rgba(0,0,0,0.08);
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --sans: 'DM Sans', system-ui, sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--warm-white);
+    color: var(--text-dark);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(255,253,249,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 5%;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px;
+  }
+  .nav-brand { display: flex; flex-direction: column; }
+  .nav-brand-name { font-family: var(--serif); font-size: 20px; font-weight: 700; color: var(--forest); letter-spacing: 0.01em; }
+  .nav-brand-sub { font-size: 10px; color: var(--text-soft); letter-spacing: 0.12em; text-transform: uppercase; }
+  .nav-links { display: flex; align-items: center; gap: 28px; }
+  .nav-links a { font-size: 13px; color: var(--text-mid); text-decoration: none; letter-spacing: 0.02em; }
+  .nav-links a:hover { color: var(--forest); }
+  .btn-nav {
+    background: var(--forest); color: #fff;
+    border: none; border-radius: 6px;
+    padding: 9px 20px; font-size: 13px; font-weight: 500;
+    font-family: var(--sans); cursor: pointer; text-decoration: none;
+    display: inline-block;
+    transition: background 0.2s;
+  }
+  .btn-nav:hover { background: var(--forest-mid); }
+
+  /* ── SECTIONS ── */
+  section { padding: 80px 5%; }
+  .section-inner { max-width: 1080px; margin: 0 auto; }
+  .eyebrow {
+    font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--forest-light); font-weight: 500; margin-bottom: 12px;
+    display: block;
+  }
+  h1 { font-family: var(--serif); font-size: clamp(38px, 5vw, 62px); font-weight: 700; line-height: 1.1; color: var(--forest); }
+  h2 { font-family: var(--serif); font-size: clamp(28px, 3.5vw, 42px); font-weight: 700; line-height: 1.2; color: var(--forest); }
+  h3 { font-family: var(--serif); font-size: 22px; font-weight: 600; color: var(--text-dark); }
+
+  .btn-primary {
+    background: var(--forest); color: #fff;
+    border: none; border-radius: 8px;
+    padding: 14px 28px; font-size: 15px; font-weight: 500;
+    font-family: var(--sans); cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    display: inline-block; text-decoration: none;
+  }
+  .btn-primary:hover { background: var(--forest-mid); transform: translateY(-1px); }
+  .btn-outline {
+    background: transparent; color: var(--forest);
+    border: 1.5px solid var(--forest); border-radius: 8px;
+    padding: 13px 28px; font-size: 15px; font-weight: 500;
+    font-family: var(--sans); cursor: pointer;
+    transition: all 0.2s; display: inline-block; text-decoration: none;
+  }
+  .btn-outline:hover { background: var(--forest); color: #fff; }
+
+  /* ── HERO ── */
+  #hero {
+    background: var(--cream);
+    padding: 0;
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+  }
+  .hero-inner {
+    max-width: 1080px; margin: 0 auto;
+    padding: 80px 5% 60px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
+    align-items: center; flex: 1;
+  }
+  .hero-left { }
+  .hero-tagline {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: #E1F5EE; color: var(--forest);
+    font-size: 12px; font-weight: 500; letter-spacing: 0.06em;
+    padding: 6px 14px; border-radius: 20px; margin-bottom: 24px;
+  }
+  .hero-tagline-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--forest-light); flex-shrink: 0; }
+  .hero-left h1 { margin-bottom: 20px; }
+  .hero-left h1 em { font-style: italic; color: var(--gold); }
+  .hero-desc { font-size: 17px; color: var(--text-mid); line-height: 1.7; margin-bottom: 32px; max-width: 440px; }
+  .hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 40px; }
+  .hero-stats { display: flex; gap: 32px; padding-top: 32px; border-top: 1px solid var(--border); }
+  .hero-stat-num { font-family: var(--serif); font-size: 28px; font-weight: 700; color: var(--forest); display: block; }
+  .hero-stat-lbl { font-size: 12px; color: var(--text-soft); }
+  .hero-right { }
+  .video-frame {
+    background: var(--forest);
+    border-radius: 16px;
+    aspect-ratio: 16/9;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 16px;
+    position: relative; overflow: hidden;
+  }
+  .video-frame::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      45deg, transparent, transparent 20px,
+      rgba(255,255,255,0.02) 20px, rgba(255,255,255,0.02) 40px
+    );
+  }
+  .play-btn {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    border: 2px solid rgba(255,255,255,0.4);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; position: relative; z-index: 1;
+    transition: all 0.2s;
+  }
+  .play-btn:hover { background: rgba(255,255,255,0.25); transform: scale(1.05); }
+  .play-triangle { width: 0; height: 0; border-top: 11px solid transparent; border-bottom: 11px solid transparent; border-left: 20px solid rgba(255,255,255,0.9); margin-left: 4px; }
+  .video-label { font-size: 13px; color: rgba(255,255,255,0.6); position: relative; z-index: 1; }
+  .video-name { font-family: var(--serif); font-size: 20px; color: rgba(255,255,255,0.9); font-style: italic; position: relative; z-index: 1; }
+  .trust-strip {
+    background: var(--forest);
+    padding: 16px 5%;
+  }
+  .trust-strip-inner {
+    max-width: 1080px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: center;
+    gap: 40px; flex-wrap: wrap;
+  }
+  .trust-item { display: flex; align-items: center; gap: 10px; color: rgba(255,255,255,0.7); font-size: 13px; }
+  .trust-icon { width: 18px; height: 18px; flex-shrink: 0; opacity: 0.8; }
+
+  /* ── PAIN POINTS ── */
+  #pain { background: var(--warm-white); }
+  .pain-header { text-align: center; margin-bottom: 52px; }
+  .pain-header p { font-size: 17px; color: var(--text-mid); max-width: 560px; margin: 16px auto 0; }
+  .pain-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .pain-item { background: var(--warm-white); padding: 28px 24px; }
+  .pain-item:hover { background: var(--cream); }
+  .pain-num { font-family: var(--serif); font-size: 36px; font-weight: 700; color: var(--gold-light); line-height: 1; margin-bottom: 10px; }
+  .pain-item h3 { font-size: 15px; font-weight: 500; margin-bottom: 8px; color: var(--text-dark); font-family: var(--sans); }
+  .pain-item p { font-size: 13px; color: var(--text-soft); line-height: 1.6; }
+
+  /* ── NATHI ── */
+  #nathi { background: var(--cream); }
+  .nathi-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; }
+  .nathi-avatar-wrap { position: relative; }
+  .nathi-avatar {
+    width: 100%; aspect-ratio: 3/4;
+    background: var(--forest);
+    border-radius: 16px;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden; position: relative;
+  }
+  .nathi-avatar::after {
+    content: 'N';
+    font-family: var(--serif); font-size: 160px; font-weight: 700;
+    color: rgba(255,255,255,0.08);
+    position: absolute;
+  }
+  .nathi-avatar-label {
+    position: absolute; bottom: 20px; left: 20px; right: 20px;
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 10px;
+    padding: 14px 16px;
+    color: #fff;
+  }
+  .nathi-avatar-label-name { font-family: var(--serif); font-size: 22px; font-weight: 600; }
+  .nathi-avatar-label-sub { font-size: 12px; opacity: 0.7; margin-top: 2px; }
+  .nathi-badge-float {
+    position: absolute; top: -16px; right: -16px;
+    background: var(--gold); color: #fff;
+    border-radius: 50%; width: 72px; height: 72px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    font-family: var(--serif); font-size: 13px; font-weight: 700; text-align: center; line-height: 1.2;
+    box-shadow: 0 4px 20px rgba(200,150,62,0.4);
+  }
+  .nathi-content { }
+  .nathi-content h2 { margin-bottom: 10px; }
+  .nathi-tagline { font-family: var(--serif); font-size: 20px; font-style: italic; color: var(--forest-light); margin-bottom: 24px; }
+  .nathi-content p { font-size: 16px; color: var(--text-mid); line-height: 1.75; margin-bottom: 20px; }
+  .nathi-badges { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
+  .nbadge { background: #E1F5EE; color: var(--forest); font-size: 12px; font-weight: 500; padding: 6px 14px; border-radius: 20px; }
+
+  /* ── PLANS ── */
+  #plans { background: var(--forest); }
+  #plans .eyebrow { color: var(--mint); }
+  #plans h2 { color: #fff; text-align: center; margin-bottom: 10px; }
+  .plans-subtitle { text-align: center; color: rgba(255,255,255,0.6); font-size: 16px; margin-bottom: 52px; }
+  .plans-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 28px; }
+  .plan-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 14px; padding: 28px 24px;
+    display: flex; flex-direction: column;
+    transition: background 0.2s;
+  }
+  .plan-card:hover { background: rgba(255,255,255,0.09); }
+  .plan-card.featured {
+    background: var(--warm-white);
+    border: 2px solid var(--gold);
+    position: relative;
+  }
+  .plan-card.featured h3 { color: var(--forest); }
+  .plan-card.featured .plan-price { color: var(--forest); }
+  .plan-card.featured .plan-price-note { color: var(--text-soft); }
+  .plan-card.featured .plan-desc { color: var(--text-mid); }
+  .popular-badge {
+    position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+    background: var(--gold); color: #fff;
+    font-size: 11px; font-weight: 500; letter-spacing: 0.06em;
+    padding: 4px 14px; border-radius: 20px; white-space: nowrap;
+  }
+  .plan-label { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.45); margin-bottom: 6px; }
+  .plan-card.featured .plan-label { color: var(--text-soft); }
+  .plan-price { font-family: var(--serif); font-size: 38px; font-weight: 700; color: #fff; line-height: 1; }
+  .plan-price-note { font-size: 13px; color: rgba(255,255,255,0.5); margin-top: 4px; margin-bottom: 6px; }
+  .plan-desc { font-size: 13px; color: rgba(255,255,255,0.6); margin-bottom: 20px; line-height: 1.5; }
+  .plan-divider { border: none; border-top: 1px solid rgba(255,255,255,0.1); margin: 0 0 20px; }
+  .plan-card.featured .plan-divider { border-color: var(--border); }
+  .plan-features { list-style: none; display: flex; flex-direction: column; gap: 10px; flex: 1; margin-bottom: 24px; }
+  .plan-features li { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: rgba(255,255,255,0.75); line-height: 1.4; }
+  .plan-card.featured .plan-features li { color: var(--text-mid); }
+  .plan-features li.highlight { color: var(--mint); font-weight: 500; }
+  .plan-card.featured .plan-features li.highlight { color: var(--forest-light); }
+  .feat-check {
+    width: 16px; height: 16px; border-radius: 50%; flex-shrink: 0; margin-top: 1px;
+    background: rgba(159,225,203,0.2); display: flex; align-items: center; justify-content: center;
+  }
+  .plan-card.featured .feat-check { background: #E1F5EE; }
+  .feat-check svg { display: block; }
+  .addon-note {
+    background: rgba(159,225,203,0.1);
+    border: 1px solid rgba(159,225,203,0.2);
+    border-radius: 8px; padding: 10px 14px;
+    font-size: 12px; color: var(--mint); margin-bottom: 18px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .plan-card.featured .addon-note { background: #E1F5EE; border-color: #9FE1CB; color: var(--forest); }
+  .btn-plan {
+    border: none; border-radius: 8px;
+    padding: 12px 20px; font-size: 14px; font-weight: 500;
+    font-family: var(--sans); cursor: pointer; width: 100%;
+    transition: all 0.2s;
+  }
+  .btn-plan-ghost { background: rgba(255,255,255,0.1); color: #fff; }
+  .btn-plan-ghost:hover { background: rgba(255,255,255,0.18); }
+  .btn-plan-gold { background: var(--gold); color: #fff; }
+  .btn-plan-gold:hover { background: #B8862E; transform: translateY(-1px); }
+  .btn-plan-outline { background: transparent; color: rgba(255,255,255,0.6); border: 1px solid rgba(255,255,255,0.2); }
+  .btn-plan-outline:hover { border-color: rgba(255,255,255,0.4); color: rgba(255,255,255,0.9); }
+  .vip-card { text-align: center; background: rgba(255,255,255,0.04); }
+
+  /* CALCULATOR */
+  .calc-wrap {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 14px; padding: 28px 32px;
+    max-width: 620px; margin: 0 auto;
+  }
+  .calc-title { font-family: var(--serif); font-size: 20px; color: #fff; margin-bottom: 24px; }
+  .calc-row { display: flex; flex-wrap: wrap; gap: 28px; margin-bottom: 20px; align-items: flex-end; }
+  .calc-field label { display: block; font-size: 12px; color: rgba(255,255,255,0.5); margin-bottom: 10px; letter-spacing: 0.04em; }
+  .stepper { display: flex; align-items: center; gap: 0; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; overflow: hidden; }
+  .step-btn {
+    width: 36px; height: 36px; background: rgba(255,255,255,0.08);
+    border: none; color: rgba(255,255,255,0.8); font-size: 18px;
+    cursor: pointer; font-family: var(--sans);
+    transition: background 0.15s; display: flex; align-items: center; justify-content: center;
+  }
+  .step-btn:hover { background: rgba(255,255,255,0.16); }
+  .step-val { width: 40px; text-align: center; font-size: 16px; font-weight: 500; color: #fff; background: rgba(255,255,255,0.05); padding: 8px 0; }
+  .wa-toggle-wrap { display: flex; align-items: center; gap: 14px; }
+  .wa-info { }
+  .wa-info-title { font-size: 13px; color: rgba(255,255,255,0.8); font-weight: 500; }
+  .wa-info-sub { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 2px; }
+  .toggle-switch {
+    width: 44px; height: 24px; border-radius: 12px;
+    background: rgba(255,255,255,0.15); border: none; cursor: pointer;
+    position: relative; transition: background 0.2s; flex-shrink: 0;
+  }
+  .toggle-switch.on { background: var(--forest-light); }
+  .toggle-switch::after {
+    content: ''; position: absolute;
+    width: 18px; height: 18px; border-radius: 50%;
+    background: #fff; top: 3px; left: 3px; transition: left 0.2s;
+  }
+  .toggle-switch.on::after { left: 23px; }
+  .calc-breakdown {
+    background: rgba(0,0,0,0.2); border-radius: 8px;
+    padding: 14px 16px; font-size: 13px; color: rgba(255,255,255,0.55);
+    line-height: 1.8; margin-bottom: 16px; min-height: 56px;
+  }
+  .calc-total-row { display: flex; align-items: baseline; justify-content: space-between; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.1); }
+  .calc-total-label { font-size: 14px; color: rgba(255,255,255,0.6); }
+  .calc-total-amt { font-family: var(--serif); font-size: 36px; font-weight: 700; color: #fff; }
+
+  /* ── HOW IT WORKS ── */
+  #how { background: var(--cream); }
+  .how-header { text-align: center; margin-bottom: 56px; }
+  .how-header p { color: var(--text-mid); font-size: 17px; max-width: 480px; margin: 14px auto 0; }
+  .steps-wrap { max-width: 600px; margin: 0 auto; }
+  .step-row { display: flex; gap: 0; }
+  .step-spine { display: flex; flex-direction: column; align-items: center; width: 44px; flex-shrink: 0; }
+  .step-dot {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--warm-white); border: 2px solid var(--forest-light);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--serif); font-size: 16px; font-weight: 700; color: var(--forest);
+    flex-shrink: 0; z-index: 1;
+  }
+  .step-dot.done { background: var(--forest-light); border-color: var(--forest); }
+  .step-dot.done svg { display: block; }
+  .step-line { width: 2px; background: #C8E8DC; flex: 1; min-height: 16px; }
+  .step-body { flex: 1; padding: 4px 0 40px 20px; }
+  .step-who { display: inline-block; font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 10px; border-radius: 20px; margin-bottom: 8px; }
+  .who-you { background: #E1F5EE; color: var(--forest); }
+  .who-nathi { background: #FAEEDA; color: #7A5018; }
+  .who-both { background: #EEEDFE; color: #3C3489; }
+  .step-title { font-family: var(--serif); font-size: 19px; font-weight: 600; color: var(--text-dark); margin-bottom: 6px; }
+  .step-desc { font-size: 14px; color: var(--text-soft); line-height: 1.65; }
+  .step-detail { background: var(--warm-white); border-left: 3px solid var(--mint); border-radius: 0 6px 6px 0; padding: 10px 14px; margin-top: 10px; font-size: 12px; color: var(--text-soft); line-height: 1.6; }
+
+  /* ── RESOURCES ── */
+  #resources { background: var(--warm-white); }
+  .res-header { text-align: center; margin-bottom: 48px; }
+  .res-header p { color: var(--text-mid); font-size: 17px; max-width: 480px; margin: 14px auto 0; }
+  .res-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 20px; }
+  .res-card {
+    border: 1px solid var(--border); border-radius: 14px; padding: 28px 24px;
+    background: var(--warm-white); display: flex; flex-direction: column;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .res-card:hover { border-color: var(--forest-light); transform: translateY(-2px); }
+  .res-icon { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+  .res-tag { font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; display: block; }
+  .res-price { font-family: var(--serif); font-size: 28px; font-weight: 700; margin-bottom: 4px; }
+  .res-title { font-size: 15px; font-weight: 500; margin-bottom: 8px; color: var(--text-dark); }
+  .res-desc { font-size: 13px; color: var(--text-soft); line-height: 1.6; flex: 1; margin-bottom: 20px; }
+  .btn-res {
+    background: transparent; border: 1px solid var(--border); border-radius: 8px;
+    padding: 10px 16px; font-size: 13px; font-weight: 500;
+    font-family: var(--sans); cursor: pointer; width: 100%;
+    color: var(--text-dark); transition: all 0.2s;
+  }
+  .btn-res:hover { background: var(--forest); color: #fff; border-color: var(--forest); }
+  .bundle-bar {
+    background: var(--cream); border: 1px solid var(--border); border-radius: 14px;
+    padding: 20px 28px; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap;
+  }
+  .bundle-badge { background: #FAEEDA; color: #7A5018; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; margin-right: 8px; }
+  .bundle-title { font-size: 15px; font-weight: 500; margin-bottom: 4px; }
+  .bundle-items { font-size: 12px; color: var(--text-soft); }
+  .bundle-price-wrap { display: flex; align-items: baseline; gap: 10px; flex-shrink: 0; }
+  .bundle-price-old { font-size: 14px; color: var(--text-soft); text-decoration: line-through; }
+  .bundle-price { font-family: var(--serif); font-size: 32px; font-weight: 700; color: var(--forest); }
+
+  /* ── FAQ ── */
+  #faq { background: var(--cream); }
+  .faq-inner { display: grid; grid-template-columns: 1fr 1.6fr; gap: 80px; align-items: start; }
+  .faq-left h2 { margin-bottom: 16px; }
+  .faq-left p { font-size: 15px; color: var(--text-mid); line-height: 1.7; }
+  .faq-list { display: flex; flex-direction: column; gap: 0; }
+  .faq-item { border-bottom: 1px solid var(--border); }
+  .faq-q {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 0; cursor: pointer; font-size: 15px; font-weight: 500;
+    color: var(--text-dark); gap: 16px;
+    background: none; border: none; width: 100%; text-align: left; font-family: var(--sans);
+  }
+  .faq-q:hover { color: var(--forest); }
+  .faq-icon { width: 20px; height: 20px; border-radius: 50%; background: var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background 0.2s; }
+  .faq-q:hover .faq-icon { background: #E1F5EE; }
+  .faq-a { font-size: 14px; color: var(--text-soft); line-height: 1.7; padding-bottom: 20px; display: none; }
+  .faq-item.open .faq-a { display: block; }
+  .faq-item.open .faq-icon { background: var(--forest-light); }
+
+  /* ── FINAL CTA ── */
+  #cta {
+    background: var(--forest);
+    text-align: center;
+  }
+  #cta h2 { color: #fff; margin-bottom: 16px; }
+  #cta p { color: rgba(255,255,255,0.65); font-size: 17px; max-width: 480px; margin: 0 auto 36px; }
+  .cta-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .btn-white { background: #fff; color: var(--forest); border: none; border-radius: 8px; padding: 14px 28px; font-size: 15px; font-weight: 500; font-family: var(--sans); cursor: pointer; transition: all 0.2s; }
+  .btn-white:hover { background: var(--cream); transform: translateY(-1px); }
+  .btn-ghost-white { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.25); border-radius: 8px; padding: 14px 28px; font-size: 15px; font-weight: 500; font-family: var(--sans); cursor: pointer; transition: all 0.2s; }
+  .btn-ghost-white:hover { background: rgba(255,255,255,0.18); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #0A2A1E; padding: 36px 5%;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 16px;
+  }
+  .footer-brand { font-family: var(--serif); font-size: 18px; color: rgba(255,255,255,0.8); }
+  .footer-tagline { font-size: 12px; color: rgba(255,255,255,0.35); margin-top: 3px; }
+  .footer-links { display: flex; gap: 24px; }
+  .footer-links a { font-size: 13px; color: rgba(255,255,255,0.45); text-decoration: none; }
+  .footer-links a:hover { color: rgba(255,255,255,0.75); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+  .hero-left h1, .hero-left .hero-desc, .hero-left .hero-ctas, .hero-left .hero-stats {
+    animation: fadeUp 0.7s ease both;
+  }
+  .hero-left h1 { animation-delay: 0.1s; }
+  .hero-left .hero-desc { animation-delay: 0.22s; }
+  .hero-left .hero-ctas { animation-delay: 0.34s; }
+  .hero-left .hero-stats { animation-delay: 0.46s; }
+  .hero-right { animation: fadeUp 0.7s ease 0.3s both; }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+    .nathi-inner { grid-template-columns: 1fr; }
+    .plans-grid { grid-template-columns: 1fr; }
+    .res-grid { grid-template-columns: 1fr; }
+    .faq-inner { grid-template-columns: 1fr; gap: 40px; }
+    .nav-links { display: none; }
+    .hero-stats { gap: 20px; }
+  }
+</style>
 </head>
 <body>
-    <h1>The current date and time is:</h1>
-    <p>2026-03-23 23:03:39</p>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">
+    <span class="nav-brand-name">Disney con Nathi</span>
+    <span class="nav-brand-sub">Tu insider en Orlando</span>
+  </div>
+  <div class="nav-links">
+    <a href="#pain">Por qué Nathi</a>
+    <a href="#plans">Planes</a>
+    <a href="#how">Cómo funciona</a>
+    <a href="#resources">Recursos</a>
+    <a href="#faq">FAQ</a>
+    <a href="#cta" class="btn-nav">Empecemos →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-tagline">
+        <div class="hero-tagline-dot"></div>
+        25 años viviendo en Orlando, Florida
+      </div>
+      <h1>Tu viaje a Disney,<br><em>sin estrés</em><br>y en español</h1>
+      <p class="hero-desc">Una insider de Disney que vive a minutos de los parques — para familias hispanohablantes que quieren disfrutar cada momento, no solo sobrevivir el día.</p>
+      <div class="hero-ctas">
+        <a href="#plans" class="btn-primary">Ver mis planes →</a>
+        <a href="#how" class="btn-outline">Cómo funciona</a>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <span class="hero-stat-num">25+</span>
+          <span class="hero-stat-lbl">años en Orlando</span>
+        </div>
+        <div>
+          <span class="hero-stat-num">100%</span>
+          <span class="hero-stat-lbl">en español</span>
+        </div>
+        <div>
+          <span class="hero-stat-num">4</span>
+          <span class="hero-stat-lbl">parques cubiertos</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="video-frame">
+        <div class="play-btn">
+          <div class="play-triangle"></div>
+        </div>
+        <div class="video-name">Hola, soy Nathi</div>
+        <div class="video-label">Tu insider de Disney · Video próximamente</div>
+      </div>
+    </div>
+  </div>
+  <div class="trust-strip">
+    <div class="trust-strip-inner">
+      <div class="trust-item">
+        <svg class="trust-icon" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="currentColor" stroke-width="1.2"/><polyline points="5,9 8,12 13,6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Planificación personalizada
+      </div>
+      <div class="trust-item">
+        <svg class="trust-icon" viewBox="0 0 18 18" fill="none"><rect x="2" y="3" width="14" height="12" rx="2" stroke="currentColor" stroke-width="1.2"/><polyline points="2,7 9,11 16,7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+        WhatsApp antes y durante el parque
+      </div>
+      <div class="trust-item">
+        <svg class="trust-icon" viewBox="0 0 18 18" fill="none"><path d="M9 2l2 4.5h5l-4 3 1.5 5L9 12l-4.5 2.5 1.5-5-4-3h5z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
+        Insider local — no una agencia
+      </div>
+      <div class="trust-item">
+        <svg class="trust-icon" viewBox="0 0 18 18" fill="none"><path d="M9 14s-6-4.5-6-8a6 6 0 0112 0c0 3.5-6 8-6 8z" stroke="currentColor" stroke-width="1.2"/><circle cx="9" cy="6.5" r="1.5" stroke="currentColor" stroke-width="1.2"/></svg>
+        A minutos de los parques
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PAIN POINTS -->
+<section id="pain">
+  <div class="section-inner">
+    <div class="pain-header">
+      <span class="eyebrow">¿Por qué las familias nos eligen?</span>
+      <h2>Disney es mágico…<br>planificarlo no tiene que ser una pesadilla</h2>
+      <p>Miles de dólares y días de vacaciones están en juego. Sin estrategia, la mayoría de las familias disfrutan menos de la mitad del parque.</p>
+    </div>
+    <div class="pain-grid">
+      <div class="pain-item">
+        <div class="pain-num">01</div>
+        <h3>Horas perdidas sin estrategia</h3>
+        <p>Sin un plan de atracciones, las colas se comen el día entero y las familias terminan agotadas antes del mediodía.</p>
+      </div>
+      <div class="pain-item">
+        <div class="pain-num">02</div>
+        <h3>Genie+ y Lightning Lane</h3>
+        <p>Costosos y confusos si no sabes cuándo y cómo usarlos. Un error puede costarte horas de espera innecesaria.</p>
+      </div>
+      <div class="pain-item">
+        <div class="pain-num">03</div>
+        <h3>Restaurantes agotados</h3>
+        <p>Las reservas se llenan meses antes. Sin plan, terminas en comida rápida en el viaje de tu vida.</p>
+      </div>
+      <div class="pain-item">
+        <div class="pain-num">04</div>
+        <h3>Barrera del idioma</h3>
+        <p>Navegar las apps, sistemas y opciones de Disney en inglés añade estrés innecesario a toda la familia.</p>
+      </div>
+      <div class="pain-item">
+        <div class="pain-num">05</div>
+        <h3>Nadie a quien llamar</h3>
+        <p>Cuando algo sale mal dentro del parque, no tienes a un experto local disponible en tiempo real.</p>
+      </div>
+      <div class="pain-item">
+        <div class="pain-num">06</div>
+        <h3>Miles de dólares en riesgo</h3>
+        <p>Un viaje familiar a Disney cuesta miles. Sin un plan sólido, es dinero y recuerdos que se van por la ventana.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NATHI -->
+<section id="nathi">
+  <div class="section-inner">
+    <div class="nathi-inner">
+      <div class="nathi-avatar-wrap">
+        <div class="nathi-avatar">
+          <svg width="120" height="120" viewBox="0 0 120 120" style="position:relative;z-index:1;opacity:0.25;" fill="none">
+            <circle cx="60" cy="48" r="28" stroke="white" stroke-width="2"/>
+            <path d="M20 100c0-22 18-36 40-36s40 14 40 36" stroke="white" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="nathi-avatar-label">
+          <div class="nathi-avatar-label-name">Nathi</div>
+          <div class="nathi-avatar-label-sub">Insider de Disney · Orlando, FL</div>
+        </div>
+        <div class="nathi-badge-float">
+          <span style="font-size:22px;font-weight:700;line-height:1;">25</span>
+          <span style="font-size:10px;opacity:0.9;">años en<br>Orlando</span>
+        </div>
+      </div>
+      <div class="nathi-content">
+        <span class="eyebrow">Tu insider</span>
+        <h2>No soy agente de viajes.<br>Soy tu insider de Disney.</h2>
+        <p class="nathi-tagline">La diferencia entre sobrevivir Disney y vivirlo al máximo.</p>
+        <p>Hola, soy Nathi — llevo 25 años viviendo en Orlando, Florida y soy fanática de Disney toda mi vida. Visito los parques con frecuencia y conozco cada rincón, cada truco y cada secreto que las guías turísticas nunca van a contarte.</p>
+        <p>He ayudado a decenas de familias de habla hispana a crear itinerarios que ahorran tiempo y dinero, y que transforman un viaje estresante en la experiencia mágica que siempre soñaron. Tu familia merece eso.</p>
+        <div class="nathi-badges">
+          <span class="nbadge">Visita los parques frecuentemente</span>
+          <span class="nbadge">Soporte 100% en español</span>
+          <span class="nbadge">Disponible por WhatsApp</span>
+          <span class="nbadge">Conoce cada parque de memoria</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PLANS -->
+<section id="plans">
+  <div class="section-inner">
+    <span class="eyebrow" style="display:block;text-align:center;">Nuestros planes</span>
+    <h2>Elige el plan perfecto<br>para tu familia</h2>
+    <p class="plans-subtitle">Precio base por un parque — agrega más parques o soporte WhatsApp según tus necesidades</p>
+
+    <div class="plans-grid">
+      <!-- Plan Solo -->
+      <div class="plan-card">
+        <div class="plan-label">Plan Solo</div>
+        <div class="plan-price">$150</div>
+        <div class="plan-price-note">primer parque · +$75 c/parque adicional</div>
+        <p class="plan-desc">Tu hoja de ruta completa para llegar preparado y aprovechar cada minuto.</p>
+        <hr class="plan-divider">
+        <ul class="plan-features">
+          <li><span class="feat-check"><svg width="9" height="7" viewBox="0 0 9 7" fill="none"><polyline points="1,3.5 3.5,6 8,1" stroke="#9FE1CB" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Plan personalizado por parque</li>
+          <li><span class="feat-check"><svg width="9" height="7" viewBox="0 0 9 7" fill="none"><polyline points="1,3.5 3.5,6 8,1" stroke="#9FE1CB" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Estrategia Genie+ y Lightning Lane</li>
+          <li><span class="feat-check"><svg width="9" height="7" viewBox="0 0 9 7" fill="none"><polyline points="1,3.5 3.5,6 8,1" stroke="#9FE1CB" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Estrategia de reservas de restaurantes</li>
+          <li><span class="feat-check"><svg width="9" height="7" viewBox="0 0 9 7" fill="none"><polyline points="1,3.5 3.5,6 8,1" stroke="#9FE1CB" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Consejos de hotel y transporte</li>
+          <li><span class="feat-check"><svg width="9" height="7" viewBox="0 0 9 7" fill="none"><polyline points="1,3.5 3.5,6 8,1" stroke="#9FE1CB" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Itinerario personalizado por fecha</li>
+          <li><span class="feat-check"><svg width="9" height="7" viewBox="0 0 9 7" fill="none"><polyline points="1,3.5 3.5,6 8,1" stroke="#9FE1CB" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Mejor orden de atracciones</li>
+          <li><span class="feat-check"><svg width="9" height="7" viewBox="0 0 9 7" fill="none"><polyline points="1,3.5 3.5,6 8,1" stroke="#9FE1CB" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Opciones de comida económica</li>
+          <li><span class="feat-check"><svg width="9" height="7" viewBox="0 0 9 7" fill="none"><polyline points="1,3.5 3.5,6 8,1" stroke="#9FE1CB" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Tips insider locales exclusivos</li>
+        </ul>
+        <div class="addon-note">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1" y="2.5" width="11" height="8.5" rx="1.5" stroke="currentColor" stroke-width="1.2"/><polyline points="1,4.5 6.5,7.5 12,4.5" stroke="currentColor" stroke-width="1.2"/></svg>
+          Agrega WhatsApp en vivo por +$50/parque
+        </div>
+        <button class="btn-plan btn-plan-ghost">Armar mi plan →</button>
+      </div>
+
+      <!-- Plan + WhatsApp (featured) -->
+      <div class="plan-card featured">
+        <div class="popular-badge">✦ Más popular</div>
+        <div class="plan-label" style="color:var(--text-soft);">Plan Solo + WhatsApp</div>
+        <div class="plan-price" style="color:var(--forest);">$200</div>
+        <div class="plan-price-note" style="color:var(--text-soft);">primer parque · +$125 c/parque adicional</div>
+        <p class="plan-desc" style="color:var(--text-mid);">Todo el plan más Nathi contigo antes y durante el parque.</p>
+        <hr class="plan-divider">
+        <ul class="plan-features">
+          <li><span class="feat-check" style="background:#E1F5EE;"><svg width="9" height="7" viewBox="0 0 9 7" fill="none"><polyline points="1,3.5 3.5,6 8,1" stroke="#085041" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Todo lo del Plan Solo</li>
+          <li><span class="feat-check" style="background:#E1F5EE;"><svg width="9" height="7" viewBox="0 0 9 7" fill="none"><polyline points="1,3.5 3.5,6 8,1" stroke="#085041" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Estrategia Genie+ y Lightning Lane</li>
+          <li><span class="feat-check" style="background:#E1F5EE;"><svg width="9" height="7" viewBox="0 0 9 7" fill="none"><polyline points="1,3.5 3.5,6 8,1" stroke="#085041" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Estrategia de reservas de restaurantes</li>
+          <li><span class="feat-check" style="background:#E1F5EE;"><svg width="9" height="7" viewBox="0 0 9 7" fill="none"><polyline points="1,3.5 3.5,6 8,1" stroke="#085041" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Itinerario personalizado por fecha</li>
+          <li><span class="feat-check" style="background:#E1F5EE;"><svg width="9" height="7" viewBox="0 0 9 7" fill="none"><polyline points="1,3.5 3.5,6 8,1" stroke="#085041" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Tips insider locales exclusivos</li>
+          <li class="highlight"><span class="feat-check" style="background:#C6EEDF;"><svg width="9" height="7" viewBox="0 0 9 7" fill="none"><polyline points="1,3.5 3.5,6 8,1" stroke="#085041" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>WhatsApp antes del viaje</li>
+          <li class="highlight"><span class="feat-check" style="background:#C6EEDF;"><svg width="9" height="7" viewBox="0 0 9 7" fill="none"><polyline points="1,3.5 3.5,6 8,1" stroke="#085041" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Soporte en vivo dentro del parque</li>
+          <li class="highlight"><span class="feat-check" style="background:#C6EEDF;"><svg width="9" height="7" viewBox="0 0 9 7" fill="none"><polyline points="1,3.5 3.5,6 8,1" stroke="#085041" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Respuestas en tiempo real</li>
+        </ul>
+        <button class="btn-plan btn-plan-gold">Armar mi plan →</button>
+      </div>
+
+      <!-- VIP -->
+      <div class="plan-card vip-card">
+        <div class="plan-label">VIP</div>
+        <div style="font-family:var(--serif);font-size:38px;font-weight:700;color:rgba(255,255,255,0.4);line-height:1;margin-bottom:6px;">✦</div>
+        <div class="plan-price-note" style="font-size:14px;">Experiencia premium</div>
+        <p class="plan-desc" style="margin-top:12px;">Una experiencia completamente personalizada, actualmente en desarrollo. Sé de los primeros en enterarte.</p>
+        <div style="flex:1;"></div>
+        <button class="btn-plan btn-plan-outline">Avísame cuando esté listo →</button>
+      </div>
+    </div>
+
+    <!-- Calculator -->
+    <div class="calc-wrap">
+      <div class="calc-title">Calcula el precio de tu plan</div>
+      <div class="calc-row">
+        <div class="calc-field">
+          <label>Número de parques</label>
+          <div class="stepper">
+            <button class="step-btn" id="pminus">−</button>
+            <div class="step-val" id="pcount">1</div>
+            <button class="step-btn" id="pplus">+</button>
+          </div>
+        </div>
+        <div class="calc-field">
+          <label>Agregar WhatsApp en vivo (+$50/parque)</label>
+          <div class="wa-toggle-wrap">
+            <div class="wa-info">
+              <div class="wa-info-title">Soporte en tiempo real</div>
+              <div class="wa-info-sub">Antes y durante cada parque</div>
+            </div>
+            <button class="toggle-switch" id="watoggle"></button>
+          </div>
+        </div>
+      </div>
+      <div class="calc-breakdown" id="cbreakdown">1 parque × $150 = $150</div>
+      <div class="calc-total-row">
+        <span class="calc-total-label">Total estimado</span>
+        <span class="calc-total-amt" id="ctotal">$150</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="section-inner">
+    <div class="how-header">
+      <span class="eyebrow">Cómo funciona</span>
+      <h2>Del primer clic a tu plan en manos</h2>
+      <p>Un proceso simple y en español, diseñado para que tú no tengas que hacer el trabajo duro.</p>
+    </div>
+    <div class="steps-wrap">
+      <div class="step-row">
+        <div class="step-spine"><div class="step-dot">1</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <span class="step-who who-you">Lo haces tú</span>
+          <div class="step-title">Elige tu plan y agenda tu llamada</div>
+          <div class="step-desc">Selecciona el plan que mejor se adapta a tu familia y reserva un horario para hablar con Nathi directamente.</div>
+          <div class="step-detail">Disponible: Plan Solo ($150) · Plan + WhatsApp ($200) · VIP (próximamente)</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-spine"><div class="step-dot">2</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <span class="step-who who-you">Lo haces tú</span>
+          <div class="step-title">Completa el formulario de tu viaje</div>
+          <div class="step-desc">Recibirás un formulario para compartir información básica — fechas, tamaño del grupo, edades, preferencias y presupuesto — para que Nathi llegue preparada a la llamada.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-spine"><div class="step-dot">3</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <span class="step-who who-both">Juntos</span>
+          <div class="step-title">Llamada de 15 minutos con Nathali</div>
+          <div class="step-desc">Una conversación rápida para profundizar en la información del formulario, responder preguntas y afinar los detalles de tu plan personalizado.</div>
+          <div class="step-detail">Por WhatsApp o videollamada · en español · desde la comodidad de tu hogar</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-spine"><div class="step-dot">4</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <span class="step-who who-you">Lo haces tú</span>
+          <div class="step-title">Realiza el pago de tu plan</div>
+          <div class="step-desc">Una vez confirmados los detalles de tu viaje, completas el pago y Nathi empieza a trabajar en tu plan personalizado.</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-spine"><div class="step-dot done"><svg width="14" height="11" viewBox="0 0 14 11" fill="none"><polyline points="1.5,5.5 5,9 12.5,1.5" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+        <div class="step-body" style="padding-bottom:0;">
+          <span class="step-who who-nathi">Lo hace Nathi</span>
+          <div class="step-title">Recibe tu plan personalizado</div>
+          <div class="step-desc">Nathi entrega tu itinerario completo — por parque y por fecha — listo para que disfrutes Disney con total confianza y cero estrés.</div>
+          <div class="step-detail">Incluye: orden de atracciones · estrategia Genie+ · reservas · tips de insider · opciones de comida por presupuesto</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESOURCES -->
+<section id="resources">
+  <div class="section-inner">
+    <div class="res-header">
+      <span class="eyebrow">Recursos adicionales</span>
+      <h2>Guías digitales para llevar en el bolsillo</h2>
+      <p>No estás listo para un plan completo? Empieza con una de nuestras guías de acceso inmediato.</p>
+    </div>
+    <div class="res-grid">
+      <div class="res-card">
+        <div class="res-icon" style="background:#E1F5EE;">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="3" y="2" width="16" height="18" rx="2" stroke="#0F6E56" stroke-width="1.5"/><line x1="7" y1="7" x2="15" y2="7" stroke="#0F6E56" stroke-width="1.5" stroke-linecap="round"/><line x1="7" y1="11" x2="15" y2="11" stroke="#0F6E56" stroke-width="1.5" stroke-linecap="round"/><line x1="7" y1="15" x2="11" y2="15" stroke="#0F6E56" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <span class="res-tag" style="color:#085041;">Guía completa</span>
+        <div class="res-price" style="color:#085041;">$49</div>
+        <div class="res-title">Disney en Español — Guía Completa</div>
+        <p class="res-desc">Todo lo que necesitas saber para planificar tu viaje a Disney desde cero, en español y con la perspectiva de una insider local de Orlando.</p>
+        <button class="btn-res">Comprar guía →</button>
+      </div>
+      <div class="res-card">
+        <div class="res-icon" style="background:#EEEDFE;">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="9" stroke="#534AB7" stroke-width="1.5"/><path d="M11 7v5l3 3" stroke="#534AB7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="res-tag" style="color:#3C3489;">Estrategia</span>
+        <div class="res-price" style="color:#534AB7;">$29</div>
+        <div class="res-title">Genie+ Walkthrough</div>
+        <p class="res-desc">Paso a paso para entender y sacarle el máximo partido a Genie+ y Lightning Lane sin desperdiciar tiempo ni dinero.</p>
+        <button class="btn-res">Comprar guía →</button>
+      </div>
+      <div class="res-card">
+        <div class="res-icon" style="background:#FAEEDA;">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M4 6h14v2l-5 5v6l-4-2v-4L4 8V6z" stroke="#854F0B" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="res-tag" style="color:#633806;">Referencia rápida</span>
+        <div class="res-price" style="color:#854F0B;">$19</div>
+        <div class="res-title">Cheat Sheet de Restaurantes</div>
+        <p class="res-desc">Los mejores restaurantes por parque, qué ordenar, cuáles reservar y cuáles evitar — todo en una hoja de referencia rápida descargable.</p>
+        <button class="btn-res">Comprar guía →</button>
+      </div>
+    </div>
+    <div class="bundle-bar">
+      <div>
+        <div style="margin-bottom:4px;">
+          <span class="bundle-badge">Ahorra $17</span>
+          <span class="bundle-title">Bundle: las 3 guías juntas</span>
+        </div>
+        <div class="bundle-items">Guía Completa + Genie+ Walkthrough + Cheat Sheet de Restaurantes</div>
+      </div>
+      <div class="bundle-price-wrap">
+        <span class="bundle-price-old">$97</span>
+        <span class="bundle-price">$80</span>
+        <button class="btn-outline" style="padding:10px 20px;font-size:13px;">Comprar bundle →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="section-inner">
+    <div class="faq-inner">
+      <div class="faq-left">
+        <span class="eyebrow">Preguntas frecuentes</span>
+        <h2>Resolvemos tus dudas</h2>
+        <p>¿Tienes más preguntas? Escríbenos por WhatsApp o contáctanos directamente — siempre respondemos en español.</p>
+        <br>
+        <a href="#cta" class="btn-primary" style="font-size:14px;padding:12px 22px;">Habla con Nathi →</a>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item open">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            ¿Cuánto tiempo antes debo contactarte?
+            <div class="faq-icon"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><line x1="5" y1="2" x2="5" y2="8" stroke="white" stroke-width="1.5" stroke-linecap="round"/><line x1="2" y1="5" x2="8" y2="5" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+          </button>
+          <div class="faq-a">Idealmente con 4 a 6 semanas de anticipación para tener tiempo de hacer reservas de restaurantes y planificar bien. Sin embargo, si tu viaje es pronto, contáctanos igual — siempre buscamos la forma de ayudarte.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            ¿Para cuáles parques de Disney funciona?
+            <div class="faq-icon"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><line x1="5" y1="2" x2="5" y2="8" stroke="white" stroke-width="1.5" stroke-linecap="round"/><line x1="2" y1="5" x2="8" y2="5" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+          </button>
+          <div class="faq-a">Cubrimos los 4 parques principales de Walt Disney World en Orlando: Magic Kingdom, EPCOT, Hollywood Studios y Animal Kingdom. Cada parque tiene su propia estrategia y precio adicional.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            ¿Qué pasa si mis planes cambian después de recibir el plan?
+            <div class="faq-icon"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><line x1="5" y1="2" x2="5" y2="8" stroke="white" stroke-width="1.5" stroke-linecap="round"/><line x1="2" y1="5" x2="8" y2="5" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+          </button>
+          <div class="faq-a">Los cambios menores de fechas o número de personas los ajustamos sin problema. Para cambios grandes puede aplicar un cargo adicional. El soporte WhatsApp en vivo (Plan + WhatsApp) también te cubre para ajustes de último minuto dentro del parque.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            ¿Cómo recibo mi plan personalizado?
+            <div class="faq-icon"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><line x1="5" y1="2" x2="5" y2="8" stroke="white" stroke-width="1.5" stroke-linecap="round"/><line x1="2" y1="5" x2="8" y2="5" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+          </button>
+          <div class="faq-a">Te enviamos tu itinerario completo por WhatsApp o email, en un formato fácil de seguir en tu teléfono. Sin apps complicadas — solo instrucciones claras para cada momento del día.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            ¿Eres agente de viajes? ¿Vendes paquetes?
+            <div class="faq-icon"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><line x1="5" y1="2" x2="5" y2="8" stroke="white" stroke-width="1.5" stroke-linecap="round"/><line x1="2" y1="5" x2="8" y2="5" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+          </button>
+          <div class="faq-a">No. No soy agente de viajes ni vendo paquetes de hoteles o vuelos. Soy una insider local que conoce Disney por dentro y por fuera. Mi servicio es pura estrategia y conocimiento local — tú reservas lo que tú decides, sin comisiones ni conflictos de interés.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            ¿Es realmente en español, o traducido por máquina?
+            <div class="faq-icon"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><line x1="5" y1="2" x2="5" y2="8" stroke="white" stroke-width="1.5" stroke-linecap="round"/><line x1="2" y1="5" x2="8" y2="5" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+          </button>
+          <div class="faq-a">100% en español natural, de persona a persona. Nathi habla español de manera nativa y toda la comunicación — llamadas, WhatsApp, plan escrito — es en tu idioma, con tu acento en mente.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section id="cta">
+  <div class="section-inner">
+    <span class="eyebrow" style="color:var(--mint);">¿Lista tu familia?</span>
+    <h2>Tu familia merece el mejor viaje a Disney</h2>
+    <p>Habla con Nathi hoy y empieza a planificar con una insider de verdad — en español, sin estrés, con total confianza.</p>
+    <div class="cta-btns">
+      <button class="btn-white">Empecemos →</button>
+      <button class="btn-ghost-white">WhatsApp Nathi</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-brand">Disney con Nathi</div>
+    <div class="footer-tagline">No soy agente de viajes. Soy tu insider de Disney.</div>
+  </div>
+  <div class="footer-links">
+    <a href="#plans">Planes</a>
+    <a href="#how">Cómo funciona</a>
+    <a href="#resources">Recursos</a>
+    <a href="#faq">FAQ</a>
+    <a href="#cta">Contacto</a>
+  </div>
+</footer>
+
+<script>
+  // FAQ toggle
+  function toggleFaq(btn) {
+    var item = btn.closest('.faq-item');
+    var isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(function(i){ i.classList.remove('open'); });
+    if (!isOpen) item.classList.add('open');
+  }
+
+  // Calculator
+  var parks = 1, wa = false;
+  function updateCalc() {
+    var base = 150 + Math.max(0, parks - 1) * 75;
+    var waAmt = wa ? parks * 50 : 0;
+    var total = base + waAmt;
+    var lines = [];
+    if (parks === 1) { lines.push('1 parque × $150 = $150'); }
+    else { lines.push('1er parque: $150'); lines.push((parks-1)+' parque(s) adicional(es) × $75 = $'+((parks-1)*75)); }
+    if (wa) lines.push('WhatsApp en vivo: '+parks+' parque(s) × $50 = $'+waAmt);
+    document.getElementById('cbreakdown').innerHTML = lines.join('<br>');
+    document.getElementById('ctotal').textContent = '$'+total;
+  }
+  document.getElementById('pminus').onclick = function(){ if(parks>1){parks--;document.getElementById('pcount').textContent=parks;updateCalc();} };
+  document.getElementById('pplus').onclick = function(){ if(parks<4){parks++;document.getElementById('pcount').textContent=parks;updateCalc();} };
+  document.getElementById('watoggle').onclick = function(){ wa=!wa;this.classList.toggle('on',wa);updateCalc(); };
+</script>
+
 </body>
 </html>
